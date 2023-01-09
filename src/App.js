@@ -1,4 +1,5 @@
-import * as React from 'react';
+import React, {useEffect, useState} from 'react';
+import NewExpenseForm from './components/Expense/new-expense-form/NewExpenseForm';
 import ExpenseList from './components/ExpenseList';
 import './index.css';
 
@@ -20,10 +21,32 @@ export default function App() {
       cost: '450.20',
     },
   ];
+  const [expenses, setExpenses] = useState([...data]);
+  const [counter, setCounter] = useState({
+    count: 3,
+  })
+  const addNewExpense = (expense) => {
+    console.log(expense);
+    // data.push({...expense});
+    // console.log(data);
+    setExpenses((prevState)=>{
+      return [...prevState, expense]
+    });
+  }
+  useEffect(()=>{
+    console.log(expenses);
+  },[expenses]);
+
+  const updateCounterHandler = () => {
+    setCounter((prevState)=>({count: prevState.count+1}));
+    console.log(counter);
+  }
   return (
     <div>
-      <h1>Hello StackBlitz!</h1>
-      <ExpenseList expenses={data}></ExpenseList>
+      <h1>Hello StackBlitz! {counter.count}</h1>
+      <button onClick={updateCounterHandler}>Count</button>
+      <NewExpenseForm onAddNewExpense={addNewExpense}></NewExpenseForm>
+      <ExpenseList expenses={expenses}></ExpenseList>
     </div>
   );
 }
